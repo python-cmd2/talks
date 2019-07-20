@@ -10,15 +10,13 @@
 import cmd2
 from cmd2 import style
 
-CUSTOM_CATEGORY = 'My Custom Commands'
-
 
 class BasicApp(cmd2.Cmd):
+    CUSTOM_CATEGORY = 'My Custom Commands'
+
     def __init__(self):
-        super().__init__(multiline_commands=['echo'],
-                         persistent_history_file='cmd2_history.dat',
-                         startup_script='startup.txt',
-                         use_ipython=True)
+        super().__init__(multiline_commands=['echo'], persistent_history_file='cmd2_history.dat',
+                         startup_script='startup.txt', use_ipython=True)
 
         self.intro = style('Welcome to PyOhio 2019 and cmd2!', fg='red', bg='white', bold=True) + ' 😀'
 

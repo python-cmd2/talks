@@ -10,5 +10,5 @@ ipython = "*"
 pyreadline = {version = "*",sys_platform = "== 'win32'"}
 
 [dev-packages]
+autopep8 = "*"
 flake8 = "*"
-pylint = "*"
