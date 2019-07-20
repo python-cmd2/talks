@@ -1,0 +1,3 @@
+# This is a text file script and any line like this beginning with a "#" is a comment
+intro
+echo foo 'bar baz' 🐍;

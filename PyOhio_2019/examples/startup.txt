@@ -1,0 +1,5 @@
+# A startup script like this allows individual users to customize their cmd2
+# application environment by doing things like creating custom aliases and macros
+alias create lh !ls -hal
+alias create pwd !pwd
+macro create backup !cp "{1}" "{1}.orig"
