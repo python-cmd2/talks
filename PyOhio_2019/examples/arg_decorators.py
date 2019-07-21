@@ -30,7 +30,7 @@ class ArgparsingApp(cmd2.Cmd):
         elif args.output_file:
             shell_command += ' > {}'.format(os.path.expanduser(args.output_file))
         self.poutput('Running shell command {!r}'.format(shell_command))
-        self.onecmd_plus_hooks(shell_command)
+        self.onecmd_plus_hooks(shell_command, add_to_history=False)
         self.poutput('')
 
     pow_parser = argparse.ArgumentParser()
