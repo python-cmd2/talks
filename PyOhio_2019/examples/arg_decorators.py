@@ -4,7 +4,6 @@
 """
 import argparse
 import os
-from typing import List
 
 import cmd2
 
@@ -35,21 +34,14 @@ class ArgparsingApp(cmd2.Cmd):
         self.onecmd_plus_hooks(shell_command)
         self.poutput('')
 
-    # TODO: Show off all of the following:
-    # - Argument types
-    #   - Integer arguments
-    # - Tab Completion:
-    #   - Choices
-    pprint_parser = argparse.ArgumentParser()
-    pprint_parser.add_argument('-p', '--piglatin', action='store_true', help='atinLay')
-    pprint_parser.add_argument('-s', '--shout', action='store_true', help='N00B EMULATION MODE')
-    pprint_parser.add_argument('-r', '--repeat', type=int, help='output [n] times')
+    pow_parser = argparse.ArgumentParser()
+    pow_parser.add_argument('base', type=int)
+    pow_parser.add_argument('exponent', type=int, choices=range(-5, 6))
 
-    @cmd2.with_argparser_and_unknown_args(pprint_parser)
-    def do_unknown_print(self, args: argparse.Namespace, unknown: List[str]) -> None:
-        """Print the options and argument list this options command was called with."""
-        self.poutput('unknown_print was called with the following\n\toptions: {!r}\n\targuments: {}'.format(args,
-                                                                                                            unknown))
+    @cmd2.with_argparser(pow_parser)
+    def do_pow(self, args: argparse.Namespace) -> None:
+        """Raise an integer to a small integer exponent, either positive or negative."""
+        self.poutput('{} ** {} == {}'.format(args.base, args.exponent, args.base ** args.exponent))
 
 
 if __name__ == '__main__':
