@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # coding=utf-8
 """A sample application for how Python scripting can provide conditional control flow of a cmd2 application"""
-import argparse
 import os
 
 import cmd2
-from cmd2 import ansi
+from cmd2 import style
 
 
 class CmdLineApp(cmd2.Cmd):
@@ -15,13 +14,15 @@ class CmdLineApp(cmd2.Cmd):
         # Enable the optional ipy command if IPython is installed by setting use_ipython=True
         super().__init__(use_ipython=True)
         self._set_prompt()
-        self.intro = 'Happy 𝛑 Day.  Note the full Unicode support:  😇 💩'
-        self.locals_in_py = True
+        self.intro = 'Built-in Python scripting is a killer feature ...'
+
+        # Add cwd accessor to Python environment used by pyscripts
+        self.py_locals['cwd'] = self.cwd
 
     def _set_prompt(self):
         """Set prompt so it displays the current working directory."""
-        self.cwd = os.getcwd()
-        self.prompt = ansi.style('{!r} $ '.format(self.cwd), fg='cyan')
+        self._cwd = os.getcwd()
+        self.prompt = style('{!r} $ '.format(self.cwd), fg='cyan')
 
     def postcmd(self, stop: bool, line: str) -> bool:
         """Hook method executed just after a command dispatch is finished.
@@ -34,6 +35,11 @@ class CmdLineApp(cmd2.Cmd):
         self._set_prompt()
         return stop
 
+    @property
+    def cwd(self):
+        """Read-only property used by the pyscript to obtain cwd"""
+        return self._cwd
+
     @cmd2.with_argument_list
     def do_cd(self, arglist):
         """Change directory.
@@ -42,9 +48,8 @@ class CmdLineApp(cmd2.Cmd):
         """
         # Expect 1 argument, the directory to change to
         if not arglist or len(arglist) != 1:
-            self.perror("cd requires exactly 1 argument:")
+            self.perror("cd requires exactly 1 argument")
             self.do_help('cd')
-            self.last_result = cmd2.CommandResult('', 'Bad arguments')
             return
 
         # Convert relative paths to absolute paths
@@ -70,13 +75,13 @@ class CmdLineApp(cmd2.Cmd):
 
         if err:
             self.perror(err)
-        self.last_result = cmd2.CommandResult(out, err, data)
+        self.last_result = data
 
     # Enable tab completion for cd command
     def complete_cd(self, text, line, begidx, endidx):
         return self.path_complete(text, line, begidx, endidx, path_filter=os.path.isdir)
 
-    dir_parser = argparse.ArgumentParser()
+    dir_parser = cmd2.Cmd2ArgumentParser()
     dir_parser.add_argument('-l', '--long', action='store_true', help="display in long format with one item per line")
 
     @cmd2.with_argparser_and_unknown_args(dir_parser)
@@ -86,7 +91,6 @@ class CmdLineApp(cmd2.Cmd):
         if unknown:
             self.perror("dir does not take any positional arguments:")
             self.do_help('dir')
-            self.last_result = cmd2.CommandResult('', 'Bad arguments')
             return
 
         # Get the contents as a list
@@ -99,7 +103,7 @@ class CmdLineApp(cmd2.Cmd):
             self.stdout.write(fmt.format(f))
         self.stdout.write('\n')
 
-        self.last_result = cmd2.CommandResult(data=contents)
+        self.last_result = contents
 
 
 if __name__ == '__main__':
