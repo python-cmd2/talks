@@ -6,6 +6,7 @@
     3) Persistent history
     4) How to run an initialization script at startup
     5) How to add custom command aliases using the alias command
+    6) Shell-like capabilities
 """
 import cmd2
 from cmd2 import style
@@ -16,7 +17,7 @@ class BasicApp(cmd2.Cmd):
 
     def __init__(self):
         super().__init__(multiline_commands=['echo'], persistent_history_file='cmd2_history.dat',
-                         startup_script='startup.txt', use_ipython=True)
+                         startup_script='scripts/startup.txt', use_ipython=True)
 
         self.intro = style('Welcome to PyOhio 2019 and cmd2!', fg='red', bg='white', bold=True) + ' 😀'
 
