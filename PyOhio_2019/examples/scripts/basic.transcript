@@ -1,0 +1,10 @@
+(Cmd) intro 
+Welcome to PyOhio 2019 and cmd2! 😀
+(Cmd) set allow_ansi Never
+allow_ansi - was: Terminal
+now: Never
+(Cmd) intro
+Welcome to PyOhio 2019 and cmd2! 😀
+(Cmd) set allow_ansi Terminal
+allow_ansi - was: Never
+now: Terminal
