@@ -16,6 +16,7 @@ class ArgparsingApp(cmd2.Cmd):
     fsize_parser = cmd2.Cmd2ArgumentParser(description='Obtain the size of a file')
     fsize_parser.add_argument('-c', '--comma', action='store_true',
                               help='add comma for thousands separator')
+    fsize_parser.add_argument('-u', '--unit', choices=['MB', 'KB'], help='unit to display size in')
     fsize_parser.add_argument('file_path', help='path of file',
                               completer_method=cmd2.Cmd.path_complete)
 
@@ -30,9 +31,17 @@ class ArgparsingApp(cmd2.Cmd):
             self.perror("Error retrieving size: {}".format(ex))
             return
 
+        if args.unit == 'KB':
+            size /= 1024
+        elif args.unit == 'MB':
+            size /= 1024 * 1024
+        else:
+            args.unit = 'bytes'
+        size = round(size, 2)
+
         if args.comma:
             size = '{:,}'.format(size)
-        self.poutput('{} bytes'.format(size))
+        self.poutput('{} {}'.format(size, args.unit))
 
     # do_pow parser
     pow_parser = argparse.ArgumentParser()

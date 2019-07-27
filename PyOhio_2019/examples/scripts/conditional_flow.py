@@ -21,8 +21,8 @@ else:
     directory = 'foobar'
     print('Using default directory: {!r}'.format(directory))
 
-# Keep track of where we started
-original_dir = cwd
+# Keep track of where we started - NOTE: cwd was added to self.py_locals dictionary so we can access it
+original_dir = cwd()
 
 # Try to change to the specified directory
 cd_result = app('cd {}'.format(directory))

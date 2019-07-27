@@ -22,7 +22,7 @@ class CmdLineApp(cmd2.Cmd):
     def _set_prompt(self):
         """Set prompt so it displays the current working directory."""
         self._cwd = os.getcwd()
-        self.prompt = style('{!r} $ '.format(self.cwd), fg='cyan')
+        self.prompt = style('{!r} $ '.format(self._cwd), fg='cyan')
 
     def postcmd(self, stop: bool, line: str) -> bool:
         """Hook method executed just after a command dispatch is finished.
@@ -35,7 +35,6 @@ class CmdLineApp(cmd2.Cmd):
         self._set_prompt()
         return stop
 
-    @property
     def cwd(self):
         """Read-only property used by the pyscript to obtain cwd"""
         return self._cwd
@@ -94,7 +93,7 @@ class CmdLineApp(cmd2.Cmd):
             return
 
         # Get the contents as a list
-        contents = os.listdir(self.cwd)
+        contents = os.listdir(self._cwd)
 
         fmt = '{} '
         if args.long:
