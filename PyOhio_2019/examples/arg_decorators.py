@@ -15,8 +15,7 @@ class ArgparsingApp(cmd2.Cmd):
     # do_fsize parser
     fsize_parser = cmd2.Cmd2ArgumentParser(description='Obtain the size of a file')
     fsize_parser.add_argument('-c', '--comma', action='store_true',
-                              help='add comma for thousands separator',
-                              completer_method=cmd2.Cmd.path_complete)
+                              help='add comma for thousands separator')
     fsize_parser.add_argument('file_path', help='path of file',
                               completer_method=cmd2.Cmd.path_complete)
 
